@@ -1,0 +1,21 @@
+{
+    "name": "outeredge/edge-magento-module-uniquequoteitem",
+    "type": "magento-module",
+    "description": "Unique Quote Item Module for Magento by outer/edge",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "outer/edge",
+            "email": "support@outeredgeuk.com"
+        }
+    ],
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "extra": {
+        "map": [
+            ["app/code/local/Edge/UniqueQuoteItem", "app/code/local/Edge/UniqueQuoteItem"],
+            ["app/etc/modules/Edge_UniqueQuoteItem.xml", "app/etc/modules/Edge_UniqueQuoteItem.xml"]
+        ]
+    }
+}

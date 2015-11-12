@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Edge_UniqueQuoteItem>
+            <version>1.0.0</version>
+        </Edge_UniqueQuoteItem>
+    </modules>
+    <global>
+        <blocks>
+            <checkout>
+                <rewrite>
+                    <cart>Edge_UniqueQuoteItem_Block_Checkout_Cart</cart>
+                </rewrite>
+            </checkout>
+        </blocks>
+        <helpers>
+            <uniquequoteitem>
+                <class>Edge_UniqueQuoteItem_Helper</class>
+            </uniquequoteitem>
+        </helpers>
+        <models>
+            <checkout>
+                <rewrite>
+                    <cart>Edge_UniqueQuoteItem_Model_Checkout_Cart</cart>
+                </rewrite>
+            </checkout>
+            <sales>
+                <rewrite>
+                    <quote>Edge_UniqueQuoteItem_Model_Sales_Quote</quote>
+                </rewrite>
+            </sales>
+        </models>
+    </global>
+    <frontend>
+        <routers>
+            <checkout>
+                <args>
+                    <modules>
+                        <uniquequoteitem before="Mage_Checkout">Edge_UniqueQuoteItem</uniquequoteitem>
+                    </modules>
+                </args>
+            </checkout>
+        </routers>
+    </frontend>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <uniquequoteitem translate="title">
+                                            <title>Unique Quote Item</title>
+                                            <sort_order>300</sort_order>
+                                        </uniquequoteitem>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+</config>
