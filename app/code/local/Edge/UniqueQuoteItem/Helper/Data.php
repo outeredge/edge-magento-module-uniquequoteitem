@@ -25,7 +25,7 @@ class Edge_UniqueQuoteItem_Helper_Data extends Mage_Core_Helper_Abstract
             $item->getProductId(),
             $item->getStoreId(),
             $item->getSku(),
-            $item->getPrice()
+            $item->getPriceInclTax()
         );
 
         switch ($item->getProductType()) {
