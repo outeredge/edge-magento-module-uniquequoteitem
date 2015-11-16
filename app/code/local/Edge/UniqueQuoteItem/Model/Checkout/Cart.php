@@ -6,7 +6,6 @@ class Edge_UniqueQuoteItem_Model_Checkout_Cart extends Mage_Checkout_Model_Cart
     {
         Mage::dispatchEvent('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
 
-        $addItems = array();
         foreach ($data as $itemId => $itemInfo) {
             $item = $this->getQuote()->getItemById($itemId);
             if (!$item) {
@@ -32,10 +31,7 @@ class Edge_UniqueQuoteItem_Model_Checkout_Cart extends Mage_Checkout_Model_Cart
                     ->load($item->getProductId());
 
                 for ($i=0; $i<$qtyChange; $i++) {
-                    $addItems[] = new Varien_Object(array(
-                        'product' => $product,
-                        'buy_request' => $item->getBuyRequest()
-                    ));
+                    $this->addProduct($product, $item->getBuyRequest());
                 }
             }
             elseif ($qtyChange < 0) {
@@ -45,14 +41,6 @@ class Edge_UniqueQuoteItem_Model_Checkout_Cart extends Mage_Checkout_Model_Cart
                     $x++;
                 }
             }
-        }
-
-        if (!empty($addItems)) {
-            $cart = Mage::getSingleton('checkout/cart');
-            foreach ($addItems as $addItem) {
-                $cart->addProduct($addItem->getProduct(), $addItem->getBuyRequest());
-            }
-            $cart->save();
         }
 
         Mage::dispatchEvent('checkout_cart_update_items_after', array('cart'=>$this, 'info'=>$data));
