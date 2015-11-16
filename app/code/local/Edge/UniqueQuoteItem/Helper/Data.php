@@ -56,4 +56,18 @@ class Edge_UniqueQuoteItem_Helper_Data extends Mage_Core_Helper_Abstract
         $keyString = implode(':', $key);
         return $keyString;
     }
+
+    public function joinLineItems(&$items)
+    {
+        $joinedItems = array();
+        foreach ($items as $item) {
+            $keyString = $this->getItemKeyString($item);
+            if (!isset($joinedItems[$keyString])) {
+                $joinedItems[$keyString] = $item;
+            } else {
+                $joinedItems[$keyString]->setQty($joinedItems[$keyString]->getQty() + 1);
+            }
+        }
+        $items = $joinedItems;
+    }
 }
