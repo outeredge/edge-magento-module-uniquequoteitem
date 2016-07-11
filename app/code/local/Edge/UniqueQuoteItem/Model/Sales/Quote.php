@@ -131,4 +131,56 @@ class Edge_UniqueQuoteItem_Model_Sales_Quote extends Mage_Sales_Model_Quote
 
         return $item;
     }
+
+    /**
+     * Prevents items from being merged into 1 when customer login occurs
+     * whilst guest has same item in quote
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return \Edge_UniqueQuoteItem_Model_Sales_Quote
+     */
+    public function merge(Mage_Sales_Model_Quote $quote)
+    {
+        Mage::dispatchEvent(
+            $this->_eventPrefix . '_merge_before',
+            array(
+                 $this->_eventObject=>$this,
+                 'source'=>$quote
+            )
+        );
+
+        foreach ($quote->getAllVisibleItems() as $item) {
+            $newItem = clone $item;
+            $this->addItem($newItem);
+            if ($item->getHasChildren()) {
+                foreach ($item->getChildren() as $child) {
+                    $newChild = clone $child;
+                    $newChild->setParentItem($newItem);
+                    $this->addItem($newChild);
+                }
+            }
+        }
+
+        /**
+         * Init shipping and billing address if quote is new
+         */
+        if (!$this->getId()) {
+            $this->getShippingAddress();
+            $this->getBillingAddress();
+        }
+
+        if ($quote->getCouponCode()) {
+            $this->setCouponCode($quote->getCouponCode());
+        }
+
+        Mage::dispatchEvent(
+            $this->_eventPrefix . '_merge_after',
+            array(
+                 $this->_eventObject=>$this,
+                 'source'=>$quote
+            )
+        );
+
+        return $this;
+    }
 }
